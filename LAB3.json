@@ -1,0 +1,295 @@
+[
+    {
+        "id": "bf0ec103086c8ec2",
+        "type": "tab",
+        "label": "lab3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a7bf04349b9d851c",
+        "type": "inject",
+        "z": "bf0ec103086c8ec2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 320,
+        "wires": [
+            [
+                "cfa2b6a1b78045c2"
+            ]
+        ]
+    },
+    {
+        "id": "cfa2b6a1b78045c2",
+        "type": "function",
+        "z": "bf0ec103086c8ec2",
+        "name": "forecast",
+        "func": "let lat = \"37.328128\";\nlet lon = \"126.689262\";\n\nmsg.url = 'http://api.openweathermap.org/data/2.5/air_pollution/forecast?appid=5112f5cc220192bf4317958a85cc9338';\nmsg.url += '&lat=' + lat + '&lon=' + lon;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 320,
+        "wires": [
+            [
+                "442c65cc3317f14d"
+            ]
+        ]
+    },
+    {
+        "id": "442c65cc3317f14d",
+        "type": "http request",
+        "z": "bf0ec103086c8ec2",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "26bcb74500237de8",
+                "4e1d7125a695dbd9",
+                "7fd17244ab274379"
+            ]
+        ]
+    },
+    {
+        "id": "4e1d7125a695dbd9",
+        "type": "function",
+        "z": "bf0ec103086c8ec2",
+        "name": " average(오전)",
+        "func": "msg.payload = JSON.parse(msg.payload);\nmsg.payload = msg.payload.list[0].main.aqi + msg.payload.list[1].main.aqi + msg.payload.list[2].main.aqi + msg.payload.list[3].main.aqi + msg.payload.list[4].main.aqi + msg.payload.list[5].main.aqi;\nmsg.payload=msg.payload/6;\nmsg.payload=Math.round(msg.payload);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 260,
+        "wires": [
+            [
+                "135b1a4bd2d82c31",
+                "af00f3f90a2a8001"
+            ]
+        ]
+    },
+    {
+        "id": "135b1a4bd2d82c31",
+        "type": "ui_gauge",
+        "z": "bf0ec103086c8ec2",
+        "name": "",
+        "group": "2590e5ec606cf137",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "오전",
+        "label": "units",
+        "format": "{{value}}",
+        "min": "1",
+        "max": "5",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1170,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "26bcb74500237de8",
+        "type": "function",
+        "z": "bf0ec103086c8ec2",
+        "name": " average (오후)",
+        "func": "msg.payload = JSON.parse(msg.payload);\n/*for(let a=0;a<6;a++){\n    msg.payload += msg.payload.list[0].main.aqi;\n}*/\nmsg.payload = msg.payload.list[6].main.aqi + msg.payload.list[7].main.aqi + msg.payload.list[8].main.aqi + msg.payload.list[9].main.aqi + msg.payload.list[10].main.aqi + msg.payload.list[11].main.aqi;\nmsg.payload = msg.payload / 6;\nmsg.payload = Math.round(msg.payload);\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 340,
+        "wires": [
+            [
+                "7a02ba8ebe4a26f2",
+                "17f26712ee69abe4"
+            ]
+        ]
+    },
+    {
+        "id": "7fd17244ab274379",
+        "type": "function",
+        "z": "bf0ec103086c8ec2",
+        "name": " average(저녁)",
+        "func": "msg.payload = JSON.parse(msg.payload);\n/*for(let a=0;a<6;a++){\n    msg.payload += msg.payload.list[0].main.aqi;\n}*/\nmsg.payload = msg.payload.list[12].main.aqi + msg.payload.list[13].main.aqi + msg.payload.list[14].main.aqi + msg.payload.list[15].main.aqi + msg.payload.list[16].main.aqi + msg.payload.list[17].main.aqi;\nmsg.payload = msg.payload / 6;\nmsg.payload = Math.round(msg.payload);\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 420,
+        "wires": [
+            [
+                "32f1cc76afdf7d17",
+                "628f9d71f69909d6"
+            ]
+        ]
+    },
+    {
+        "id": "7a02ba8ebe4a26f2",
+        "type": "ui_gauge",
+        "z": "bf0ec103086c8ec2",
+        "name": "",
+        "group": "2590e5ec606cf137",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "오후",
+        "label": "units",
+        "format": "{{value}}",
+        "min": "1",
+        "max": "5",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1170,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "32f1cc76afdf7d17",
+        "type": "ui_gauge",
+        "z": "bf0ec103086c8ec2",
+        "name": "",
+        "group": "2590e5ec606cf137",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "저녁",
+        "label": "units",
+        "format": "{{value}}",
+        "min": "1",
+        "max": "5",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1170,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "af00f3f90a2a8001",
+        "type": "debug",
+        "z": "bf0ec103086c8ec2",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1340,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "17f26712ee69abe4",
+        "type": "debug",
+        "z": "bf0ec103086c8ec2",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1340,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "628f9d71f69909d6",
+        "type": "debug",
+        "z": "bf0ec103086c8ec2",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1340,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "2590e5ec606cf137",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "a423288dcd311f88",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a423288dcd311f88",
+        "type": "ui_tab",
+        "name": "lab3",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
