@@ -3,7 +3,11 @@ lab3 동작영상입니다
 
 
 
-https://user-images.githubusercontent.com/123044407/231097117-2f6747c0-65a5-4116-8395-db7ec6d5d1de.mp4
+
+
+https://user-images.githubusercontent.com/123044407/231109206-b2ca8548-3e00-446d-b6fe-80043175bc0b.mp4
+
+
 
 
 
